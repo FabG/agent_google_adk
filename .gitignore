@@ -1,0 +1,3 @@
+__pycache__/
+*.pyc
+multi_tool_agent/.env
