@@ -45,14 +45,15 @@ Note: Features like Multimodal Streaming, Evaluation, Deployment, Debugging, and
 ## Core Learning Paths
 
 ### 1. Multi-Tool Agents
-Learn to create workflows that use multiple tools to accomplish complex tasks, enabling agents to orchestrate various capabilities seamlessly.
-See [multi-tool agent readme](multi_tool_agent/multi_tool_agent_readme.md)
+Learn to create workflows that use multiple tools to accomplish complex tasks, enabling agents to orchestrate various capabilities seamlessly.  
+See [multi-tool agent readme](multi_tool_agent/readme_multi_tool_agent.md)
 
 ### 2. Agent Teams
 Build collaborative multi-agent systems incorporating:
 - Agent delegation and coordination
 - Session management across agents
-- Safety mechanisms and guardrails
+- Safety mechanisms and guardrails  
+See [agent team readme](agent_team/readme_agent_team.md)
 
 ### 3. Streaming Agents
 Develop agents capable of processing and responding to streamed content in real-time, ideal for interactive applications.
@@ -66,7 +67,7 @@ Explore reference implementations across various domains:
 
 ## Getting Started
 
-Set up environment & Install ADK
+### Set up environment & Install ADK
 ```shell
 # Create
 python -m venv .venv
@@ -76,11 +77,50 @@ python -m venv .venv
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 ```
 
-Install ADK:
+Activate (xecute in each new terminal session):
+macOS / Linux:
 ```shell
-python3 -m pip install google-adk
+source .venv/bin/activate
+```
+Windows (Command Prompt):
+```shell
+.venv\Scripts\activate.bat
+```
+Windows (PowerShell):
+```shell
+.venv\Scripts\Activate.ps1
 ```
 
+### Install Dependencies:
+Run the beloww command:
+```shell
+python3 -m pip  install -r requirements.txt
+```
+
+### Configuration: API Keys
+Before running any agent step, you must configure your API keys.
+
+Navigate into the directory for the specific step you want to run (e.g., step_1, step_2_anthropic, step_3, etc.).
+
+Each step directory contains a .env file. Open this file in a text editor.
+
+Replace the placeholder values with your actual API keys.
+
+Example .env content:
+```shell
+# Set to False to use API keys directly (required for multi-model)
+GOOGLE_GENAI_USE_VERTEXAI=FALSE
+
+# --- Replace with your actual keys ---
+GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_GOOGLE_API_KEY_HERE
+ANTHROPIC_API_KEY=PASTE_YOUR_ACTUAL_ANTHROPIC_API_KEY_HERE
+OPENAI_API_KEY=PASTE_YOUR_ACTUAL_OPENAI_API_KEY_HERE
+# --- End of keys ---
+```
+
+Save the .env file.
+
+Repeat this process for the .env file in every step directory you intend to run. The keys needed might vary slightly depending on the models used in that specific step.
 
 
 ## Resources
