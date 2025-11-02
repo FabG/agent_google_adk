@@ -25,6 +25,23 @@ The ADK is available in two programming languages:
 - **Python** (`adk-python`)
 - **Java** (`adk-java`)
 
+## Core concepts
+ADK is built around a few key primitives and concepts that make it powerful and flexible. Here are the essentials:
+
+- **Agent**: The fundamental worker unit designed for specific tasks. Agents can use language models (`LlmAgent`) for complex reasoning, or act as deterministic controllers of the execution, which are called "workflow agents" (`SequentialAgent`, `ParallelAgent`, `LoopAgent`).
+- **Tool**: Gives agents abilities beyond conversation, letting them interact with external APIs, search information, run code, or call other services.
+- **Callbacks**: Custom code snippets you provide to run at specific points in the agent's process, allowing for checks, logging, or behavior modifications.
+- **Session Management**: Handles the context of a single conversation (`Session`), including its history (`Events`) and the agent's working memory for that conversation (`State`).
+- **Memory**: Enables agents to recall information about a user across multiple sessions, providing long-term context (distinct from short-term session State).
+- **Artifact Management** (`Artifact`): Allows agents to save, load, and manage files or binary data (like images, PDFs) associated with a session or user.
+- **Code Execution**: The ability for agents (usually via Tools) to generate and execute code to perform complex calculations or actions.
+- **Planning**: An advanced capability where agents can break down complex goals into smaller steps and plan how to achieve them like a ReAct planner.
+- **Models**: The underlying LLM that powers `LlmAgents`, enabling their reasoning and language understanding abilities.
+- **Event**: The basic unit of communication representing things that happen during a session (user message, agent reply, tool use), forming the conversation history.
+- **Runner**: The engine that manages the execution flow, orchestrates agent interactions based on Events, and coordinates with backend services.
+
+Note: Features like Multimodal Streaming, Evaluation, Deployment, Debugging, and Trace are also part of the broader ADK ecosystem, supporting real-time interaction and the development lifecycle.
+
 ## Core Learning Paths
 
 ### 1. Multi-Tool Agents
