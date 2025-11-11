@@ -16,27 +16,46 @@ To be more specific, we will focus on:
 - **Session State for Memory**: Utilizing `Session State` and `ToolContext` to enable agents to remember information across conversational turns, leading to more contextual interactions.
 - **Safety Guardrails with Callbacks**: Implementing `before_model_callback` and `before_tool_callback` to inspect, modify, or block requests/tool usage based on predefined rules, enhancing application safety and control.
 
+
+
+### Execution environments.
+If you prefer to use a notebook experience with Google Colaab, please refer to this [agent-team tutorial](https://google.github.io/adk-docs/tutorials/agent-team/)
+
+The below and next steps are more taylored towards a manual runner/session setup using ADK's standard tools, also documented [here](https://github.com/google/adk-docs/tree/main/examples/python/tutorial/agent_team/adk-tutorial)
+
+
+### Prerequisites
+- Python: Version 3.9 - 3.12 (Check ADK documentation for the latest compatibility).
+- Git: To clone this repository.
+- LLM API Keys (optional): You will need API keys for the services used in the tutorial steps (Google Gemini, potentially OpenAI and Anthropic).
+Google AI Studio: https://aistudio.google.com/app/apikey
+OpenAI Platform: https://platform.openai.com/api-keys
+Anthropic Console: https://console.anthropic.com/settings/keys
+
 ### Setup Instructions
-See packave install in parent [readme](../README.md)
+See packave install in parent [readme](../README.md). 
 
 And make sure you have approviprate API keys in the `.env` file
+Ensure your virtual environment is activated.
 
-### Running the Examples
-Ensure your virtual environment is activated before running these commands. Each agent.py file (e.g., in step_1) contains example queries you can use to test the agents.
-
-### Using adk web (Recommended for Interactive UI)
-1. Navigate to the parent adk-tutorial directory (the one containing the step_1, step_2_... folders).
-# Make sure you are in the main 'adk-tutorial' folder
+#### 1. Clone repo
 ```shell
-cd /path/to/your/adk-tutorial
+git clone https://github.com/google/adk-docs.git
+cp -pr adk-docs/examples/python/tutorial/agent_team/adk-tutorial/ agent_team/
+cd agent_team/
 ```
-2. Run the command:
+
+#### 2. Run the command
 ```shell
 adk web
 ```
-3. This will start a local web server and likely open a new tab in your browser.
-4. In the web UI, you'll find a dropdown menu (usually on the left). Use this dropdown to select the agent step you want to interact with (e.g., step_1, step_2_gpt4, step_6).
-5. Once selected, you can type messages in the chat interface to interact with the agent for that specific step.
+#### 3. This will start a local web server and likely open a new tab in your browser.
+![cli adk](../images/adk_web_cli.png)
+
+#### 4. In the web UI, you'll find a dropdown menu (usually on the left). Use this dropdown to select the agent step you want to interact with (e.g., step_1, step_2_gpt4, step_6).
+![adk drop down](../images/adk_web_dropdown.png)
+
+#### 5. Once selected, you can type messages in the chat interface to interact with the agent for that specific step.
 
 
 ### Using adk run (Command-Line Interaction)
