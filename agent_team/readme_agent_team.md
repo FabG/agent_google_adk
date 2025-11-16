@@ -56,7 +56,7 @@ adk web
 ![adk drop down](../images/adk_web_dropdown.png)
 
 #### 5. Once selected, you can type messages in the chat interface to interact with the agent for that specific step.
-
+![agent 1 weather](../images/agent1_weather_mock.png)
 
 ### Using adk run (Command-Line Interaction)
 The `adk run` command allows you to interact with an agent directly from your terminal. You typically specify the path to the agent file.
@@ -66,6 +66,9 @@ Example (running Step 1):
 # Make sure you are in the main 'adk-tutorial' folder
 adk run step_1
 ```
+Example:  
+![adk run agent 1](../images/agent_1_cli_weather.png)
+
 For detailed usage and options for adk run, please refer to the [Official ADK Documentation - Run Your Agent](https://google.github.io/adk-docs/get-started/quickstart/#terminal-adk-run).
 
 
