@@ -55,15 +55,7 @@ Build collaborative multi-agent systems incorporating:
 - Safety mechanisms and guardrails  
 See [agent team readme](agent_team/readme_agent_team.md)
 
-### 3. Streaming Agents
-Develop agents capable of processing and responding to streamed content in real-time, ideal for interactive applications.
 
-### 4. Sample Applications
-Explore reference implementations across various domains:
-- Retail applications
-- Travel and booking systems
-- Customer service bots
-- And more
 
 ## Getting Started
 
@@ -102,9 +94,7 @@ Before running any agent step, you must configure your API keys.
 
 Navigate into the directory for the specific step you want to run (e.g., step_1, step_2_anthropic, step_3, etc.).
 
-Each step directory contains a .env file. Open this file in a text editor.
-
-Replace the placeholder values with your actual API keys.
+Each step directory contains a `.env` file. Replace the placeholder values with your actual API keys.
 
 Example .env content:
 ```shell
@@ -118,11 +108,41 @@ OPENAI_API_KEY=PASTE_YOUR_ACTUAL_OPENAI_API_KEY_HERE
 # --- End of keys ---
 ```
 
-Save the .env file.
-
-Repeat this process for the .env file in every step directory you intend to run. The keys needed might vary slightly depending on the models used in that specific step.
 
 
+## Agents
+In the Agent Development Kit (ADK), an **Agent** is a self-contained execution unit designed to act autonomously to achieve specific goals. Agents can perform tasks, interact with users, utilize external tools, and coordinate with other agents.
+
+The foundation for all agents in ADK is the BaseAgent class. It serves as the fundamental blueprint. To create functional agents, you typically extend BaseAgent in one of three main ways, catering to different needs – from intelligent reasoning to structured process control.
+![agent types](images/agent-types.png)
+
+### Core Agent Categories
+ADK provides distinct agent categories to build sophisticated applications:
+
+1. [LLM Agents (LlmAgent, Agent)](agents/llm_agents.md): These agents utilize **LLMs** (Large Language Models) as their core engine to understand natural language, reason, plan, generate responses, and **dynamically decide** how to proceed or which tools to use, making them ideal for flexible, language-centric tasks. 
+
+2. [Workflow Agents (SequentialAgent, ParallelAgent, LoopAgent)](agents/workflow_agents.md): These specialized agents control the execution flow of other agents in predefined, **deterministic patterns** (sequence, parallel, or loop) without using an LLM for the flow control itself, perfect for structured processes needing predictable execution. 
+
+3. [Custom Agents](agents/custom_agents.md): Created by extending BaseAgent directly, these agents allow you to implement unique operational logic, specific control flows, or specialized integrations not covered by the standard types, catering to highly tailored application requirements. 
+
+
+### Choosing the Right Agent Type
+The following table provides a high-level comparison to help distinguish between the agent types. As you explore each type in more detail in the subsequent sections, these distinctions will become clearer.
+
+| Feature |	LLM Agent (`LlmAgent`) |	Workflow Agent (`SequentialAgent`, `ParallelAgent`, `LoopAgent`) |	Custom Agent (`BaseAgent` subclass) |
+|---|---|---|---|
+| **Primary Function** |	Reasoning, Generation, Tool Use |	Controlling Agent Execution Flow |	Implementing Unique Logic/Integrations |
+| **Core Engine** |	Large Language Model (LLM) |	Predefined Logic (Sequence, Parallel, Loop) |	Custom Code |
+| **Determinism** |	Non-deterministic (Flexible) |	Deterministic (Predictable) |	Can be either, based on implementation** |
+| **Primary Use** |	Language tasks, Dynamic decisions |	Structured processes, Orchestration |	Tailored requirements, Specific workflows |
+
+### Agents Working Together: Multi-Agent Systems
+While each agent type serves a distinct purpose, the true power often comes from combining them. Complex applications frequently employ multi-agent architectures where:
+
+- **LLM Agents** handle intelligent, language-based task execution.
+- **Workflow Agents** manage the overall process flow using standard patterns.
+- **Custom Agents provide specialized capabilities or rules needed for unique integrations.
+Understanding these core types is the first step toward building sophisticated, capable AI applications with ADK.
 
 ## Resources
 
