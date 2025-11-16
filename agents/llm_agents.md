@@ -45,36 +45,17 @@ First, you need to establish what the agent *is* and what it's *for*.
   choice of model impacts the agent's capabilities, cost, and performance. See
   the [Models](models.md) page for available options and considerations.
 
-=== "Python"
 
-    ```python
-    # Example: Defining the basic identity
-    capital_agent = LlmAgent(
-        model="gemini-2.0-flash",
-        name="capital_agent",
-        description="Answers user questions about the capital city of a given country."
-        # instruction and tools will be added next
-    )
-    ```
+```python
+# Example: Defining the basic identity
+capital_agent = LlmAgent(
+    model="gemini-2.0-flash",
+    name="capital_agent",
+    description="Answers user questions about the capital city of a given country."
+    # instruction and tools will be added next
+)
+```
 
-=== "Go"
-
-    ```go
-    --8<-- "examples/go/snippets/agents/llm-agents/snippets/main.go:identity"
-    ```
-
-=== "Java"
-
-    ```java
-    // Example: Defining the basic identity
-    LlmAgent capitalAgent =
-        LlmAgent.builder()
-            .model("gemini-2.0-flash")
-            .name("capital_agent")
-            .description("Answers user questions about the capital city of a given country.")
-            // instruction and tools will be added next
-            .build();
-    ```
 
 ## Guiding the Agent: Instructions (`instruction`)
 
@@ -102,54 +83,24 @@ tells the agent:
 * `{artifact.var}` is used to insert the text content of the artifact named var.
 * If the state variable or artifact does not exist, the agent will raise an error. If you want to ignore the error, you can append a `?` to the variable name as in `{var?}`.
 
-=== "Python"
 
-    ```python
-    # Example: Adding instructions
-    capital_agent = LlmAgent(
-        model="gemini-2.0-flash",
-        name="capital_agent",
-        description="Answers user questions about the capital city of a given country.",
-        instruction="""You are an agent that provides the capital city of a country.
-    When a user asks for the capital of a country:
-    1. Identify the country name from the user's query.
-    2. Use the `get_capital_city` tool to find the capital.
-    3. Respond clearly to the user, stating the capital city.
-    Example Query: "What's the capital of {country}?"
-    Example Response: "The capital of France is Paris."
-    """,
-        # tools will be added next
-    )
-    ```
-
-=== "Go"
-
-    ```go
-    --8<-- "examples/go/snippets/agents/llm-agents/snippets/main.go:instruction"
-    ```
-
-=== "Java"
-
-    ```java
-    // Example: Adding instructions
-    LlmAgent capitalAgent =
-        LlmAgent.builder()
-            .model("gemini-2.0-flash")
-            .name("capital_agent")
-            .description("Answers user questions about the capital city of a given country.")
-            .instruction(
-                """
-                You are an agent that provides the capital city of a country.
-                When a user asks for the capital of a country:
-                1. Identify the country name from the user's query.
-                2. Use the `get_capital_city` tool to find the capital.
-                3. Respond clearly to the user, stating the capital city.
-                Example Query: "What's the capital of {country}?"
-                Example Response: "The capital of France is Paris."
-                """)
-            // tools will be added next
-            .build();
-    ```
+```python
+# Example: Adding instructions
+capital_agent = LlmAgent(
+    model="gemini-2.0-flash",
+    name="capital_agent",
+    description="Answers user questions about the capital city of a given country.",
+    instruction="""You are an agent that provides the capital city of a country.
+When a user asks for the capital of a country:
+1. Identify the country name from the user's query.
+2. Use the `get_capital_city` tool to find the capital.
+3. Respond clearly to the user, stating the capital city.
+Example Query: "What's the capital of {country}?"
+Example Response: "The capital of France is Paris."
+""",
+    # tools will be added next
+)
+```
 
 *(Note: For instructions that apply to *all* agents in a system, consider using
 `global_instruction` on the root agent, detailed further in the
@@ -170,64 +121,25 @@ The LLM uses the function/tool names, descriptions (from docstrings or the
 `description` field), and parameter schemas to decide which tool to call based
 on the conversation and its instructions.
 
-=== "Python"
 
-    ```python
-    # Define a tool function
-    def get_capital_city(country: str) -> str:
-      """Retrieves the capital city for a given country."""
-      # Replace with actual logic (e.g., API call, database lookup)
-      capitals = {"france": "Paris", "japan": "Tokyo", "canada": "Ottawa"}
-      return capitals.get(country.lower(), f"Sorry, I don't know the capital of {country}.")
-    
-    # Add the tool to the agent
-    capital_agent = LlmAgent(
-        model="gemini-2.0-flash",
-        name="capital_agent",
-        description="Answers user questions about the capital city of a given country.",
-        instruction="""You are an agent that provides the capital city of a country... (previous instruction text)""",
-        tools=[get_capital_city] # Provide the function directly
-    )
-    ```
+```python
+# Define a tool function
+def get_capital_city(country: str) -> str:
+    """Retrieves the capital city for a given country."""
+    # Replace with actual logic (e.g., API call, database lookup)
+    capitals = {"france": "Paris", "japan": "Tokyo", "canada": "Ottawa"}
+    return capitals.get(country.lower(), f"Sorry, I don't know the capital of {country}.")
 
-=== "Go"
+# Add the tool to the agent
+capital_agent = LlmAgent(
+    model="gemini-2.0-flash",
+    name="capital_agent",
+    description="Answers user questions about the capital city of a given country.",
+    instruction="""You are an agent that provides the capital city of a country... (previous instruction text)""",
+    tools=[get_capital_city] # Provide the function directly
+)
+```
 
-    ```go
-    --8<-- "examples/go/snippets/agents/llm-agents/snippets/main.go:tool_example"
-    ```
-
-=== "Java"
-
-    ```java
-    
-    // Define a tool function
-    // Retrieves the capital city of a given country.
-    public static Map<String, Object> getCapitalCity(
-            @Schema(name = "country", description = "The country to get capital for")
-            String country) {
-      // Replace with actual logic (e.g., API call, database lookup)
-      Map<String, String> countryCapitals = new HashMap<>();
-      countryCapitals.put("canada", "Ottawa");
-      countryCapitals.put("france", "Paris");
-      countryCapitals.put("japan", "Tokyo");
-    
-      String result =
-              countryCapitals.getOrDefault(
-                      country.toLowerCase(), "Sorry, I couldn't find the capital for " + country + ".");
-      return Map.of("result", result); // Tools must return a Map
-    }
-    
-    // Add the tool to the agent
-    FunctionTool capitalTool = FunctionTool.create(experiment.getClass(), "getCapitalCity");
-    LlmAgent capitalAgent =
-        LlmAgent.builder()
-            .model("gemini-2.0-flash")
-            .name("capital_agent")
-            .description("Answers user questions about the capital city of a given country.")
-            .instruction("You are an agent that provides the capital city of a country... (previous instruction text)")
-            .tools(capitalTool) // Provide the function wrapped as a FunctionTool
-            .build();
-    ```
 
 Learn more about Tools in the google [Tools for Agents](https://google.github.io/adk-docs/tools/#gemini-tools) documentation.
 
@@ -241,48 +153,25 @@ You can adjust how the underlying LLM generates responses using `generate_conten
 
 * **`generate_content_config` (Optional):** Pass an instance of [`google.genai.types.GenerateContentConfig`](https://googleapis.github.io/python-genai/genai.html#genai.types.GenerateContentConfig) to control parameters like `temperature` (randomness), `max_output_tokens` (response length), `top_p`, `top_k`, and safety settings.
 
-=== "Python"
 
-    ```python
-    from google.genai import types
+```python
+from google.genai import types
 
-    agent = LlmAgent(
-        # ... other params
-        generate_content_config=types.GenerateContentConfig(
-            temperature=0.2, # More deterministic output
-            max_output_tokens=250,
-            safety_settings=[
-                types.SafetySetting(
-                    category=types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-                    threshold=types.HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-                )
-            ]
-        )
+agent = LlmAgent(
+    # ... other params
+    generate_content_config=types.GenerateContentConfig(
+        temperature=0.2, # More deterministic output
+        max_output_tokens=250,
+        safety_settings=[
+            types.SafetySetting(
+                category=types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                threshold=types.HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+            )
+        ]
     )
-    ```
+)
+```
 
-=== "Go"
-
-    ```go
-    import "google.golang.org/genai"
-
-    --8<-- "examples/go/snippets/agents/llm-agents/snippets/main.go:gen_config"
-    ```
-
-=== "Java"
-
-    ```java
-    import com.google.genai.types.GenerateContentConfig;
-
-    LlmAgent agent =
-        LlmAgent.builder()
-            // ... other params
-            .generateContentConfig(GenerateContentConfig.builder()
-                .temperature(0.2F) // More deterministic output
-                .maxOutputTokens(250)
-                .build())
-            .build();
-    ```
 
 ### Structuring Data (`input_schema`, `output_schema`, `output_key`)
 
@@ -297,61 +186,24 @@ For scenarios requiring structured data exchange with an `LLM Agent`, the ADK pr
     * In Java: `session.state().put(outputKey, agentResponseText)`
     * In Golang, within a callback handler: `ctx.State().Set(output_key, agentResponseText)`
 
-=== "Python"
 
-    The input and output schema is typically a `Pydantic` BaseModel.
+The input and output schema is typically a `Pydantic` BaseModel.
 
-    ```python
-    from pydantic import BaseModel, Field
-    
-    class CapitalOutput(BaseModel):
-        capital: str = Field(description="The capital of the country.")
-    
-    structured_capital_agent = LlmAgent(
-        # ... name, model, description
-        instruction="""You are a Capital Information Agent. Given a country, respond ONLY with a JSON object containing the capital. Format: {"capital": "capital_name"}""",
-        output_schema=CapitalOutput, # Enforce JSON output
-        output_key="found_capital"  # Store result in state['found_capital']
-        # Cannot use tools=[get_capital_city] effectively here
-    )
-    ```
+```python
+from pydantic import BaseModel, Field
 
-=== "Go"
+class CapitalOutput(BaseModel):
+    capital: str = Field(description="The capital of the country.")
 
-    The input and output schema is a `google.genai.types.Schema` object.
+structured_capital_agent = LlmAgent(
+    # ... name, model, description
+    instruction="""You are a Capital Information Agent. Given a country, respond ONLY with a JSON object containing the capital. Format: {"capital": "capital_name"}""",
+    output_schema=CapitalOutput, # Enforce JSON output
+    output_key="found_capital"  # Store result in state['found_capital']
+    # Cannot use tools=[get_capital_city] effectively here
+)
+```
 
-    ```go
-    --8<-- "examples/go/snippets/agents/llm-agents/snippets/main.go:schema_example"
-    ```
-
-=== "Java"
-
-     The input and output schema is a `google.genai.types.Schema` object.
-
-    ```java
-    private static final Schema CAPITAL_OUTPUT =
-        Schema.builder()
-            .type("OBJECT")
-            .description("Schema for capital city information.")
-            .properties(
-                Map.of(
-                    "capital",
-                    Schema.builder()
-                        .type("STRING")
-                        .description("The capital city of the country.")
-                        .build()))
-            .build();
-    
-    LlmAgent structuredCapitalAgent =
-        LlmAgent.builder()
-            // ... name, model, description
-            .instruction(
-                    "You are a Capital Information Agent. Given a country, respond ONLY with a JSON object containing the capital. Format: {\"capital\": \"capital_name\"}")
-            .outputSchema(capitalOutput) // Enforce JSON output
-            .outputKey("found_capital") // Store result in state.get("found_capital")
-            // Cannot use tools(getCapitalCity) effectively here
-            .build();
-    ```
 
 ### Managing Context (`include_contents`)
 
@@ -361,34 +213,14 @@ Control whether the agent receives the prior conversation history.
     * `'default'`: The agent receives the relevant conversation history.
     * `'none'`: The agent receives no prior `contents`. It operates based solely on its current instruction and any input provided in the *current* turn (useful for stateless tasks or enforcing specific contexts).
 
-=== "Python"
 
-    ```python
-    stateless_agent = LlmAgent(
-        # ... other params
-        include_contents='none'
-    )
-    ```
+```python
+stateless_agent = LlmAgent(
+    # ... other params
+    include_contents='none'
+)
+```
 
-=== "Go"
-
-    ```go
-    import "google.golang.org/adk/agent/llmagent"
-
-    --8<-- "examples/go/snippets/agents/llm-agents/snippets/main.go:include_contents"
-    ```
-
-=== "Java"
-
-    ```java
-    import com.google.adk.agents.LlmAgent.IncludeContents;
-    
-    LlmAgent statelessAgent =
-        LlmAgent.builder()
-            // ... other params
-            .includeContents(IncludeContents.NONE)
-            .build();
-    ```
 
 ### Planner
 
